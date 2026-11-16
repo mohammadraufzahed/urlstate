@@ -75,7 +75,7 @@ export function autoBind(root: ParentNode = document, options: AutoBindOptions =
   const states = new Map<string, QueryState<unknown>>()
 
   const scan = (): void => {
-    const found = [...(root instanceof Element && root.matches(SELECTOR) ? [root] : []), ...Array.from(root.querySelectorAll(SELECTOR))].filter(el => !bound.has(el))
+    const found = [...(root instanceof Element && root.matches(SELECTOR) ? [root] : []), ...Array.from(root.querySelectorAll(SELECTOR))]
     const groups = new Map<string, Element[]>()
     for (const el of found) {
       const key = (el as HTMLElement).dataset.urlstate ?? ''
@@ -85,8 +85,19 @@ export function autoBind(root: ParentNode = document, options: AutoBindOptions =
       groups.set(key, group)
     }
     for (const [key, elements] of groups) {
+      const fresh = elements.filter(el => !bound.has(el))
+      if (fresh.length === 0) continue
       const toggles = elements.every(isToggle)
-      const sets = toggles ? [elements] : elements.map(el => [el])
+      if (toggles) {
+        for (let i = bindings.length - 1; i >= 0; i--) {
+          const existing = bindings[i] as Binding
+          if (existing.elements.some(el => elements.includes(el))) {
+            existing.unbind()
+            bindings.splice(i, 1)
+          }
+        }
+      }
+      const sets = toggles ? [elements] : fresh.map(el => [el])
       const state = states.get(key) ?? instance.queryState(key, readParser(toggles ? elements : [elements[0] as Element], registry))
       states.set(key, state)
       for (const set of sets) {
