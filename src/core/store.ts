@@ -213,40 +213,52 @@ export class UrlStore {
     return deferred.promise
   }
 
+  private inFlight: Promise<unknown> = Promise.resolve()
+
   private async runFlush(): Promise<URLSearchParams> {
     const deferred = this.flushDeferred ?? createDeferred()
     this.flushDeferred = null
     const entries = this.pending
     this.pending = new Map()
     this.throttleMs = 0
-    if (this.destroyed || entries.size === 0) {
-      deferred.resolve(this.getSearch())
-      return deferred.promise
-    }
-    let search = this.adapter.read()
-    let history: 'push' | 'replace' = 'replace'
-    let scroll = false
-    let shallow = true
-    for (const [key, { query, options }] of entries) {
-      writeRaw(search, key, query)
-      if (options.history === 'push') history = 'push'
-      if (options.scroll) scroll = true
-      if (!options.shallow) shallow = false
-    }
-    if (this.config.processUrlSearchParams) search = this.config.processUrlSearchParams(search)
-    const options: WriteOptions = { history, scroll, shallow }
-    this.lastFlushAt = now()
-    logger.mark('flush')
+    const previous = this.inFlight
+    let release = (): void => undefined
+    this.inFlight = new Promise<void>(resolve => {
+      release = resolve
+    })
     try {
-      await this.adapter.write(search, options)
-      this.optimistic = this.adapter.read()
-      for (const [key, entry] of [...this.pending, ...this.debounced]) writeRaw(this.optimistic, key, entry.query)
-      logger.debug(`flush ${this.adapter.getUrl?.(search) ?? search.toString()}`, options)
-      this.dispatch('urlstate:flush', { search: new URLSearchParams(search), url: this.adapter.getUrl?.(search) ?? '', options })
-      deferred.resolve(new URLSearchParams(search))
-    } catch (error) {
-      logger.error('Failed to update the URL', error)
-      deferred.reject(error)
+      await previous
+      if (this.destroyed || entries.size === 0) {
+        deferred.resolve(this.getSearch())
+        return await deferred.promise
+      }
+      let search = this.adapter.read()
+      let history: 'push' | 'replace' = 'replace'
+      let scroll = false
+      let shallow = true
+      for (const [key, { query, options }] of entries) {
+        writeRaw(search, key, query)
+        if (options.history === 'push') history = 'push'
+        if (options.scroll) scroll = true
+        if (!options.shallow) shallow = false
+      }
+      const options: WriteOptions = { history, scroll, shallow }
+      this.lastFlushAt = now()
+      logger.mark('flush')
+      try {
+        if (this.config.processUrlSearchParams) search = this.config.processUrlSearchParams(search)
+        await this.adapter.write(search, options)
+        this.optimistic = this.adapter.read()
+        for (const [key, entry] of [...this.pending, ...this.debounced]) writeRaw(this.optimistic, key, entry.query)
+        logger.debug(`flush ${this.adapter.getUrl?.(search) ?? search.toString()}`, options)
+        this.dispatch('urlstate:flush', { search: new URLSearchParams(search), url: this.adapter.getUrl?.(search) ?? '', options })
+        deferred.resolve(new URLSearchParams(search))
+      } catch (error) {
+        logger.error('Failed to update the URL', error)
+        deferred.reject(error)
+      }
+    } finally {
+      release()
     }
     return deferred.promise
   }
