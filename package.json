@@ -1,0 +1,122 @@
+{
+  "name": "urlstate",
+  "version": "0.1.0",
+  "description": "Type-safe URL query-string state for vanilla JS, with a jQuery 3.6+ adapter. nuqs-style, framework-free.",
+  "keywords": [
+    "url",
+    "query-string",
+    "search-params",
+    "state",
+    "jquery",
+    "jquery-plugin",
+    "vanilla",
+    "history",
+    "nuqs"
+  ],
+  "license": "MIT",
+  "author": "Mohammad Raufzahed",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohammadraufzahed/urlstate.git"
+  },
+  "homepage": "https://github.com/mohammadraufzahed/urlstate#readme",
+  "bugs": "https://github.com/mohammadraufzahed/urlstate/issues",
+  "type": "module",
+  "sideEffects": [
+    "./dist/jquery.js",
+    "./dist/jquery.cjs",
+    "./dist/*.iife.js",
+    "./dist/*.iife.min.js"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "unpkg": "./dist/urlstate.iife.min.js",
+  "jsdelivr": "./dist/urlstate.iife.min.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./server": {
+      "import": "./dist/server.js",
+      "require": "./dist/server.cjs"
+    },
+    "./dom": {
+      "import": "./dist/dom.js",
+      "require": "./dist/dom.cjs"
+    },
+    "./jquery": {
+      "import": "./dist/jquery.js",
+      "require": "./dist/jquery.cjs"
+    },
+    "./jquery/drivers": {
+      "import": "./dist/jquery-drivers.js",
+      "require": "./dist/jquery-drivers.cjs"
+    },
+    "./adapters/browser": {
+      "import": "./dist/adapters/browser.js",
+      "require": "./dist/adapters/browser.cjs"
+    },
+    "./adapters/hash": {
+      "import": "./dist/adapters/hash.js",
+      "require": "./dist/adapters/hash.cjs"
+    },
+    "./adapters/memory": {
+      "import": "./dist/adapters/memory.js",
+      "require": "./dist/adapters/memory.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "peerDependencies": {
+    "jquery": ">=3.6.0 <5"
+  },
+  "peerDependenciesMeta": {
+    "jquery": {
+      "optional": true
+    }
+  },
+  "scripts": {
+    "build": "tsdown && node scripts/build-iife.mjs",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "size": "size-limit",
+    "check": "pnpm typecheck && pnpm lint && pnpm test && pnpm build && pnpm size"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "1.65.1",
+    "@size-limit/preset-small-lib": "14.3.0",
+    "@standard-schema/spec": "1.1.0",
+    "@types/jquery": "^4.0.1",
+    "@types/node": "^24.19.2",
+    "esbuild": "^0.28.2",
+    "eslint": "^10.15.0",
+    "happy-dom": "21.0.4",
+    "jquery": "4.0.0",
+    "jquery-3.6.0": "npm:jquery@3.6.0",
+    "jquery-3.6.4": "npm:jquery@3.6.4",
+    "jquery-3.7.1": "npm:jquery@3.7.1",
+    "jquery-4.0.0": "npm:jquery@4.0.0",
+    "nuqs": "2.10.3",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "size-limit": "14.3.0",
+    "tsdown": "0.23.7",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "8.72.2",
+    "vitest": "5.1.0",
+    "zod": "^4.6.7"
+  }
+}
