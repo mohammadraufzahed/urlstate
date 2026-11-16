@@ -21,6 +21,7 @@ function splitHash(): { path: string; query: string } {
 export function hashAdapter(options: HashAdapterOptions = {}): UrlAdapter {
   const { patchHistory = true } = options
   let lastSeen = typeof location === 'undefined' ? '' : location.hash
+  let writing = false
 
   const getUrl = (search: URLSearchParams): string => {
     const hash = splitHash().path + renderQueryString(search)
@@ -35,16 +36,19 @@ export function hashAdapter(options: HashAdapterOptions = {}): UrlAdapter {
     read: () => new URLSearchParams(splitHash().query),
     write(search, { history: mode, scroll }) {
       const url = getUrl(search)
-      const index = url.indexOf('#')
-      lastSeen = index === -1 ? '' : url.slice(index)
-      if (mode === 'push') history.pushState(history.state, '', url)
-      else history.replaceState(history.state, '', url)
+      writing = true
+      try {
+        if (mode === 'push') history.pushState(history.state, '', url)
+        else history.replaceState(history.state, '', url)
+      } finally {
+        writing = false
+      }
       lastSeen = location.hash
       if (scroll) window.scrollTo({ top: 0 })
     },
     subscribe(notify) {
       const check = (source: ChangeSource): void => {
-        if (location.hash === lastSeen) return
+        if (writing || location.hash === lastSeen) return
         lastSeen = location.hash
         notify(new URLSearchParams(splitHash().query), source)
       }

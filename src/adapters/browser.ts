@@ -23,6 +23,7 @@ interface NavigationLike extends EventTarget {
 export function browserAdapter(options: BrowserAdapterOptions = {}): UrlAdapter {
   const { patchHistory = true, useNavigationApi = true, fullPageNavigationOnShallowFalse = true } = options
   let lastSeen = typeof location === 'undefined' ? '' : location.search
+  let writing = false
 
   const getUrl = (search: URLSearchParams): string => location.pathname + renderQueryString(search) + location.hash
 
@@ -39,15 +40,19 @@ export function browserAdapter(options: BrowserAdapterOptions = {}): UrlAdapter 
         else location.replace(url)
         return
       }
-      lastSeen = renderQueryString(search)
-      if (mode === 'push') history.pushState(history.state, '', url)
-      else history.replaceState(history.state, '', url)
+      writing = true
+      try {
+        if (mode === 'push') history.pushState(history.state, '', url)
+        else history.replaceState(history.state, '', url)
+      } finally {
+        writing = false
+      }
       lastSeen = location.search
       if (scroll) window.scrollTo({ top: 0 })
     },
     subscribe(notify) {
       const check = (source: ChangeSource): void => {
-        if (location.search === lastSeen) return
+        if (writing || location.search === lastSeen) return
         lastSeen = location.search
         notify(new URLSearchParams(location.search), source)
       }
