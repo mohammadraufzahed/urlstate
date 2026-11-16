@@ -86,7 +86,9 @@ export const inputDriver: ElementDriver = {
   matches: els => els.length > 0 && els.every(isTextControl),
   read(els) {
     const values = els.map(el => (el as HTMLInputElement | HTMLTextAreaElement).value)
-    return els.length === 1 ? (values[0] ?? '') : values.filter(value => value !== '')
+    if (els.length === 1) return values[0] ?? ''
+    while (values.length > 0 && values[values.length - 1] === '') values.pop()
+    return values
   },
   write(els, value) {
     const list = toList(value)
