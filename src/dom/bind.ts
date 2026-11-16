@@ -84,14 +84,14 @@ export function unbindAll(target: BindTarget): void {
  * @example bind('#search', 'q', parseAsString, { debounce: 300 })
  * @example bind(document.querySelectorAll('input[name=size]'), sizeState)
  */
-export function bind(target: BindTarget, state: QueryState<unknown>, options?: BindOptions): Binding
+export function bind<T>(target: BindTarget, state: QueryState<T>, options?: BindOptions): Binding
 export function bind(target: BindTarget, key: string, parser?: AnyParser, options?: BindOptions): Binding
-export function bind(target: BindTarget, stateOrKey: QueryState<unknown> | string, parserOrOptions?: AnyParser | BindOptions, maybeOptions?: BindOptions): Binding {
+export function bind(target: BindTarget, stateOrKey: QueryState<never> | QueryState<unknown> | string, parserOrOptions?: AnyParser | BindOptions, maybeOptions?: BindOptions): Binding {
   const ownsState = typeof stateOrKey === 'string'
   const options: BindOptions = (ownsState ? maybeOptions : (parserOrOptions as BindOptions | undefined)) ?? {}
   const state: QueryState<unknown> = ownsState
     ? (options.instance ?? getUrlState()).queryState(stateOrKey, (parserOrOptions as AnyParser | undefined) ?? parseAsString)
-    : stateOrKey
+    : (stateOrKey as QueryState<unknown>)
   const elements = toElements(target)
   if (elements.length === 0) throw new Error(`[urlstate] bind("${state.key}"): no elements to bind`)
   const registryToUse = options.drivers ?? defaultDrivers

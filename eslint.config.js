@@ -13,6 +13,10 @@ export default tseslint.config(
     }
   },
   {
+    files: ['**/*.test.ts', 'tests/**'],
+    rules: { '@typescript-eslint/no-non-null-assertion': 'off' }
+  },
+  {
     files: ['**/*.js', '**/*.mjs', 'examples/**', 'tests/e2e/**', '*.config.ts'],
     rules: { 'no-restricted-imports': 'off' },
     languageOptions: { globals: { window: 'readonly', document: 'readonly', console: 'readonly', process: 'readonly', URL: 'readonly' } }
