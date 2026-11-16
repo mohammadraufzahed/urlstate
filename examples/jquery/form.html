@@ -13,7 +13,7 @@
   <button type="submit">Apply</button> <button type="reset">Clear</button>
 </form>
 <pre id="values" data-testid="values"></pre>
-<script>(function () { var v = new URLSearchParams(location.search).get("jq") || "3.6.0"; document.write("<script src=\"/node_modules/jquery-" + v + "/dist/jquery.min.js\"><\/script>") })()</script>
+<script>(function () { var v = new URLSearchParams(location.search).get("jq") || "3.6.0"; if (["3.6.0", "3.6.4", "3.7.1", "4.0.0"].indexOf(v) === -1) v = "3.6.0"; document.write("<script src=\"/node_modules/jquery-" + v + "/dist/jquery.min.js\"><\/script>") })()</script>
 <script src="/dist/urlstate.jquery.iife.js"></script><script src="/examples/url-bar.js"></script>
 <script>
   $(function () {

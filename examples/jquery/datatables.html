@@ -3,7 +3,7 @@
 <h1>jQuery: DataTables</h1>
 <p>Page, search and sort live in the URL (<code>?page=2&amp;q=pi&amp;sort=1.desc</code>); reload or share the link to restore the table.</p>
 <table id="tires" class="display" data-testid="table"><thead><tr><th>Brand</th><th>Model</th><th>Size</th></tr></thead><tbody></tbody></table>
-<script>(function () { var v = new URLSearchParams(location.search).get("jq") || "3.6.0"; document.write("<script src=\"/node_modules/jquery-" + v + "/dist/jquery.min.js\"><\/script>") })()</script>
+<script>(function () { var v = new URLSearchParams(location.search).get("jq") || "3.6.0"; if (["3.6.0", "3.6.4", "3.7.1", "4.0.0"].indexOf(v) === -1) v = "3.6.0"; document.write("<script src=\"/node_modules/jquery-" + v + "/dist/jquery.min.js\"><\/script>") })()</script>
 <script src="/node_modules/datatables.net/js/dataTables.min.js"></script>
 <script src="/dist/urlstate.jquery.iife.js"></script><script src="/examples/url-bar.js"></script>
 <script>

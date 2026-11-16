@@ -5,7 +5,7 @@
 <select id="tags" multiple style="width: 100%" data-testid="tags">
   <option value="summer">Summer</option><option value="winter">Winter</option><option value="all-season">All-season</option><option value="runflat">Run-flat</option>
 </select>
-<script>(function () { var v = new URLSearchParams(location.search).get("jq") || "3.6.0"; document.write("<script src=\"/node_modules/jquery-" + v + "/dist/jquery.min.js\"><\/script>") })()</script>
+<script>(function () { var v = new URLSearchParams(location.search).get("jq") || "3.6.0"; if (["3.6.0", "3.6.4", "3.7.1", "4.0.0"].indexOf(v) === -1) v = "3.6.0"; document.write("<script src=\"/node_modules/jquery-" + v + "/dist/jquery.min.js\"><\/script>") })()</script>
 <script src="/node_modules/select2/dist/js/select2.full.min.js"></script>
 <script src="/dist/urlstate.jquery.iife.js"></script><script src="/examples/url-bar.js"></script>
 <script>
