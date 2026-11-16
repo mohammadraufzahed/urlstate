@@ -26,7 +26,7 @@ for (const target of targets) {
 
 const nodeFiles = readdirSync(dist, { recursive: true }).map(String).filter(file => !browserBuild.test(file) && /\.(c?js|d\.c?ts|map)$/.test(file))
 execFileSync('zip', ['-q', resolve(out, `urlstate-node-${version}.zip`), ...nodeFiles], { cwd: dist })
-execFileSync('zip', ['-q', '-j', resolve(out, `urlstate-node-${version}.zip`), ...docs])
+execFileSync('zip', ['-q', '-j', resolve(out, `urlstate-node-${version}.zip`), resolve(root, 'package.json'), ...docs])
 execFileSync('pnpm', ['pack', '--pack-destination', out], { cwd: root, stdio: 'ignore' })
 
 const assets = readdirSync(out).filter(file => file !== 'SHA256SUMS.txt').sort()
