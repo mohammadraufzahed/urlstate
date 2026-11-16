@@ -183,7 +183,13 @@ export class UrlStore {
     this.destroyed = true
     this.unsubscribe()
     if (this.flushTimer !== null) clearTimeout(this.flushTimer)
-    for (const entry of this.debounced.values()) clearTimeout(entry.timer)
+    const search = this.getSearch()
+    this.flushDeferred?.resolve(new URLSearchParams(search))
+    this.flushDeferred = null
+    for (const entry of this.debounced.values()) {
+      clearTimeout(entry.timer)
+      entry.deferred.resolve(new URLSearchParams(search))
+    }
     this.debounced.clear()
     this.pending.clear()
     this.listeners.clear()
