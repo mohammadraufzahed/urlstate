@@ -1,0 +1,26 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><link rel="stylesheet" href="/examples/style.css"><title>urlstate examples</title></head><body>
+<h1>urlstate examples</h1>
+<p>Run <code>pnpm build &amp;&amp; pnpm examples</code>, then open the pages below. Each page shows the live URL at the top; use Back/Forward to see the state restore.</p>
+<h2>Vanilla JS</h2>
+<ul>
+  <li><a href="/examples/vanilla/counter.html">Counter</a> — <code>queryState</code> + <code>parseAsInteger</code>, push history</li>
+  <li><a href="/examples/vanilla/search.html">Debounced search</a> — <code>bind()</code> with <code>debounce</code></li>
+  <li><a href="/examples/vanilla/filters.html">Filters + pagination</a> — <code>queryStates</code>, <code>urlKeys</code>, reset page on filter change</li>
+  <li><a href="/examples/vanilla/tabs.html">Tabs</a> — <code>parseAsStringLiteral</code>, Back button switches tabs</li>
+  <li><a href="/examples/vanilla/declarative.html">Declarative</a> — <code>data-urlstate</code> attributes + <code>autoBind()</code></li>
+  <li><a href="/examples/vanilla/hash.html">Hash adapter</a> — state stored in <code>#/?...</code></li>
+</ul>
+<h2>jQuery (3.6+)</h2>
+<ul>
+  <li><a href="/examples/jquery/input.html">Single input</a> — <code>$(el).urlState()</code>; switch jQuery with <code>?jq=3.6.0</code></li>
+  <li><a href="/examples/jquery/form.html">Laravel-style form</a> — <code>$(form).urlStateForm()</code> with <code>brands[]</code></li>
+  <li><a href="/examples/jquery/select2.html">Select2</a> — widget driver</li>
+  <li><a href="/examples/jquery/datatables.html">DataTables</a> — page / search / sort in the URL</li>
+</ul>
+<h2>Node / tooling</h2>
+<ul>
+  <li><code>examples/node/loader.mjs</code> — <code>createLoader</code> on the server</li>
+  <li><code>examples/node/serializer.mjs</code> — build links with <code>createSerializer</code></li>
+  <li><code>examples/node/testing.test.ts</code> — unit-test URL state with <code>memoryAdapter</code></li>
+</ul>
+</body></html>

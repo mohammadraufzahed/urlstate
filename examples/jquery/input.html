@@ -1,0 +1,16 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><link rel="stylesheet" href="/examples/style.css"><title>jQuery input</title></head><body><nav><a href="/examples/index.html">All examples</a></nav>
+<h1>jQuery: single input</h1>
+<p>Loaded jQuery <strong id="version" data-testid="version"></strong>. Try <a href="?jq=3.6.0">3.6.0</a>, <a href="?jq=3.6.4">3.6.4</a>, <a href="?jq=3.7.1">3.7.1</a>, <a href="?jq=4.0.0">4.0.0</a>.</p>
+<input id="q" placeholder="Type, then press Back" data-testid="q">
+<p>Last sync from URL: <code id="log" data-testid="log">-</code></p>
+<script>(function () { var v = new URLSearchParams(location.search).get("jq") || "3.6.0"; if (["3.6.0", "3.6.4", "3.7.1", "4.0.0"].indexOf(v) === -1) v = "3.6.0"; document.write("<script src=\"/node_modules/jquery-" + v + "/dist/jquery.min.js\"><\/script>") })()</script>
+<script src="/dist/urlstate.jquery.iife.js"></script><script src="/examples/url-bar.js"></script>
+<script>
+  $(function () {
+    $('#version').text($.fn.jquery)
+    $('#q')
+      .urlState('q', $.urlState.parsers.parseAsString, { debounce: 200, history: 'push' })
+      .on('urlstate:sync', function (event, detail) { $('#log').text(detail.source + ': ' + JSON.stringify(detail.value)) })
+  })
+</script>
+</body></html>

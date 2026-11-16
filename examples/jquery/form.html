@@ -1,0 +1,28 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><link rel="stylesheet" href="/examples/style.css"><title>jQuery form</title></head><body><nav><a href="/examples/index.html">All examples</a></nav>
+<h1>jQuery: Laravel-style filter form</h1>
+<p>jQuery <span id="version"></span>. The URL keeps <code>brands[]=a&amp;brands[]=b</code>, so <code>$request-&gt;input('brands')</code> is an array in PHP. The URL is written on submit without a reload.</p>
+<form id="filters" action="/search" method="get">
+  <label>Search <input name="q" type="search" data-testid="q"></label>
+  <label>Category <select name="category"><option value="">All</option><option value="tires">Tires</option><option value="rims">Rims</option></select></label>
+  <fieldset><legend>Brands</legend>
+    <label><input type="checkbox" name="brands[]" value="michelin">Michelin</label>
+    <label><input type="checkbox" name="brands[]" value="pirelli">Pirelli</label>
+    <label><input type="checkbox" name="brands[]" value="bridgestone">Bridgestone</label>
+  </fieldset>
+  <label><input type="checkbox" name="in_stock">In stock</label>
+  <button type="submit">Apply</button> <button type="reset">Clear</button>
+</form>
+<pre id="values" data-testid="values"></pre>
+<script>(function () { var v = new URLSearchParams(location.search).get("jq") || "3.6.0"; if (["3.6.0", "3.6.4", "3.7.1", "4.0.0"].indexOf(v) === -1) v = "3.6.0"; document.write("<script src=\"/node_modules/jquery-" + v + "/dist/jquery.min.js\"><\/script>") })()</script>
+<script src="/dist/urlstate.jquery.iife.js"></script><script src="/examples/url-bar.js"></script>
+<script>
+  $(function () {
+    $('#version').text($.fn.jquery)
+    var $form = $('#filters').urlStateForm(null, { live: false, history: 'push' })
+    function render() { $('#values').text(JSON.stringify($form.urlStateValue(), null, 2)) }
+    $form.on('urlstate:submit', render)
+    $(document).on('urlstate:change', render)
+    render()
+  })
+</script>
+</body></html>

@@ -1,0 +1,17 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><link rel="stylesheet" href="/examples/style.css"><title>Declarative</title></head><body><nav><a href="/examples/index.html">All examples</a></nav>
+<h1>Declarative bindings</h1>
+<p>No JS beyond <code>UrlState.autoBind()</code>. Attributes choose the parser, default and debounce.</p>
+<label>Search <input data-urlstate="q" data-urlstate-debounce="300" data-testid="q"></label>
+<label>Page <input type="number" min="1" data-urlstate="page" data-urlstate-parser="integer" data-urlstate-default="1" data-testid="page"></label>
+<fieldset><legend>Brand</legend>
+  <label><input type="checkbox" data-urlstate="brand" value="michelin">Michelin</label>
+  <label><input type="checkbox" data-urlstate="brand" value="pirelli">Pirelli</label>
+</fieldset>
+<label><input type="checkbox" data-urlstate="stock">In stock only</label>
+<label>Sort
+  <select data-urlstate="sort" data-urlstate-history="push"><option value="">Relevance</option><option value="price">Price</option><option value="rating">Rating</option></select>
+</label>
+<p>Current page: <strong data-urlstate="page" data-urlstate-parser="integer" data-urlstate-default="1" data-testid="page-text"></strong></p>
+<script src="/dist/urlstate.dom.iife.js"></script><script src="/examples/url-bar.js"></script>
+<script>UrlState.autoBind()</script>
+</body></html>

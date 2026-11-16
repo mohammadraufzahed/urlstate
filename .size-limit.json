@@ -1,0 +1,51 @@
+[
+  {
+    "name": "core (queryState + parsers)",
+    "path": "dist/index.js",
+    "import": "{ queryState, parseAsInteger }",
+    "limit": "5.5 kB"
+  },
+  {
+    "name": "full ESM",
+    "path": "dist/index.js",
+    "limit": "7.5 kB"
+  },
+  {
+    "name": "dom",
+    "path": "dist/dom.js",
+    "limit": "8.5 kB"
+  },
+  {
+    "name": "jquery plugin",
+    "path": "dist/jquery.js",
+    "ignore": [
+      "jquery"
+    ],
+    "limit": "9.5 kB"
+  },
+  {
+    "name": "IIFE core",
+    "path": "dist/urlstate.iife.min.js",
+    "limit": "7 kB"
+  },
+  {
+    "name": "IIFE core + DOM",
+    "path": "dist/urlstate.dom.iife.min.js",
+    "limit": "10 kB"
+  },
+  {
+    "name": "IIFE jQuery",
+    "path": "dist/urlstate.jquery.iife.min.js",
+    "limit": "11 kB"
+  },
+  {
+    "name": "IIFE jQuery + widget drivers",
+    "path": "dist/urlstate.jquery.full.iife.min.js",
+    "limit": "12 kB"
+  },
+  {
+    "name": "ESM browser core + DOM",
+    "path": "dist/urlstate.dom.esm.min.js",
+    "limit": "10 kB"
+  }
+]

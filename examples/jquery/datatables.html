@@ -1,0 +1,40 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><link rel="stylesheet" href="/examples/style.css"><title>DataTables</title>
+<link rel="stylesheet" href="/node_modules/datatables.net-dt/css/dataTables.dataTables.min.css"></head><body><nav><a href="/examples/index.html">All examples</a></nav>
+<h1>jQuery: DataTables</h1>
+<p>Page, search and sort live in the URL (<code>?page=2&amp;q=pi&amp;sort=1.desc</code>); reload or share the link to restore the table.</p>
+<table id="tires" class="display" data-testid="table"><thead><tr><th>Brand</th><th>Model</th><th>Size</th></tr></thead><tbody></tbody></table>
+<script>(function () { var v = new URLSearchParams(location.search).get("jq") || "3.6.0"; if (["3.6.0", "3.6.4", "3.7.1", "4.0.0"].indexOf(v) === -1) v = "3.6.0"; document.write("<script src=\"/node_modules/jquery-" + v + "/dist/jquery.min.js\"><\/script>") })()</script>
+<script src="/node_modules/datatables.net/js/dataTables.min.js"></script>
+<script src="/dist/urlstate.jquery.iife.js"></script><script src="/examples/url-bar.js"></script>
+<script>
+  $(function () {
+    var P = $.urlState.parsers
+    var brands = ['Michelin', 'Pirelli', 'Bridgestone', 'Continental', 'Goodyear', 'Hankook', 'Yokohama']
+    var rows = []
+    for (var i = 0; i < 35; i++) rows.push([brands[i % brands.length], 'Model ' + (i + 1), (15 + (i % 5)) + '"'])
+    var sortParser = P.createParser({
+      parse: function (v) { var p = v.split('.'); var col = parseInt(p[0], 10); return isNaN(col) ? null : [col, p[1] === 'desc' ? 'desc' : 'asc'] },
+      serialize: function (v) { return v[0] + '.' + v[1] },
+      eq: function (a, b) { return a[0] === b[0] && a[1] === b[1] }
+    })
+    var state = $.urlStates({
+      page: P.parseAsIndex.withDefault(0),
+      q: P.parseAsString.withDefault(''),
+      sort: sortParser.withDefault([0, 'asc'])
+    })
+    var initial = state.get()
+    var table = $('#tires').DataTable({ data: rows, pageLength: 5, search: { search: initial.q }, order: [initial.sort], displayStart: initial.page * 5 })
+    var applying = false
+    function apply(v) {
+      applying = true
+      table.search(v.q).order(v.sort).draw(false)
+      table.page(v.page).draw(false)
+      applying = false
+    }
+    table.on('page.dt', function () { if (!applying) state.set({ page: table.page.info().page }, { history: 'push' }) })
+    table.on('search.dt', function () { if (!applying) state.set({ q: table.search(), page: 0 }) })
+    table.on('order.dt', function () { if (!applying) { var o = table.order()[0]; state.set({ sort: [o[0], o[1]], page: 0 }) } })
+    state.subscribe(function (v, meta) { if (meta.source === 'external') apply(v) })
+  })
+</script>
+</body></html>

@@ -1,0 +1,18 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><link rel="stylesheet" href="/examples/style.css"><title>Select2</title>
+<link rel="stylesheet" href="/node_modules/select2/dist/css/select2.min.css"></head><body><nav><a href="/examples/index.html">All examples</a></nav>
+<h1>jQuery: Select2</h1>
+<p>The Select2 driver writes with <code>.val(v).trigger('change.select2')</code>, so only Select2 re-renders on Back/Forward.</p>
+<select id="tags" multiple style="width: 100%" data-testid="tags">
+  <option value="summer">Summer</option><option value="winter">Winter</option><option value="all-season">All-season</option><option value="runflat">Run-flat</option>
+</select>
+<script>(function () { var v = new URLSearchParams(location.search).get("jq") || "3.6.0"; if (["3.6.0", "3.6.4", "3.7.1", "4.0.0"].indexOf(v) === -1) v = "3.6.0"; document.write("<script src=\"/node_modules/jquery-" + v + "/dist/jquery.min.js\"><\/script>") })()</script>
+<script src="/node_modules/select2/dist/js/select2.full.min.js"></script>
+<script src="/dist/urlstate.jquery.full.iife.js"></script><script src="/examples/url-bar.js"></script>
+<script>
+  $(function () {
+    UrlState.registerWidgetDrivers($)
+    $('#tags').select2({ placeholder: 'Tags' })
+      .urlState('tags', $.urlState.parsers.parseAsArrayOf($.urlState.parsers.parseAsString).withDefault([]), { history: 'push' })
+  })
+</script>
+</body></html>

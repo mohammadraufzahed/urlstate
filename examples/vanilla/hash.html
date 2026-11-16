@@ -1,0 +1,16 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><link rel="stylesheet" href="/examples/style.css"><title>Hash adapter</title></head><body><nav><a href="/examples/index.html">All examples</a></nav>
+<h1>Hash adapter</h1>
+<p>For static hosting or hash routers: state lives in <code>location.hash</code> (<code>#?view=grid</code>) and <code>location.search</code> is untouched.</p>
+<label><input type="radio" name="view" value="list">List</label>
+<label><input type="radio" name="view" value="grid">Grid</label>
+<p data-testid="hash" id="hash"></p>
+<script src="/dist/urlstate.dom.iife.js"></script><script src="/examples/url-bar.js"></script>
+<script>
+  UrlState.configure({ adapter: UrlState.hashAdapter() })
+  UrlState.bind('input[name=view]', 'view', UrlState.parseAsString.withDefault('list'))
+  function render() { document.getElementById('hash').textContent = 'hash: ' + location.hash }
+  window.addEventListener('hashchange', render)
+  window.addEventListener('urlstate:flush', render)
+  render()
+</script>
+</body></html>
