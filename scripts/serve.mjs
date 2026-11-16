@@ -1,6 +1,6 @@
 import { createReadStream, statSync } from 'node:fs'
 import { createServer } from 'node:http'
-import { dirname, extname, join, normalize, resolve } from 'node:path'
+import { dirname, extname, join, normalize, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
@@ -9,8 +9,13 @@ const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '
 
 createServer((req, res) => {
   const { pathname } = new URL(req.url ?? '/', 'http://localhost')
-  let file = normalize(join(root, decodeURIComponent(pathname === '/' ? '/examples/index.html' : pathname)))
-  if (!file.startsWith(root)) return res.writeHead(403).end()
+  let file
+  try {
+    file = normalize(join(root, decodeURIComponent(pathname === '/' ? '/examples/index.html' : pathname)))
+  } catch {
+    return res.writeHead(400).end('Bad request')
+  }
+  if (file !== root && !file.startsWith(root + sep)) return res.writeHead(403).end()
   try {
     if (statSync(file).isDirectory()) file = join(file, 'index.html')
     statSync(file)
