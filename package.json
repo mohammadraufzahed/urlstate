@@ -19,7 +19,7 @@
     "type": "git",
     "url": "git+https://github.com/mohammadraufzahed/urlstate.git"
   },
-  "homepage": "https://github.com/mohammadraufzahed/urlstate#readme",
+  "homepage": "https://mohammadraufzahed.github.io/urlstate/",
   "bugs": "https://github.com/mohammadraufzahed/urlstate/issues",
   "type": "module",
   "sideEffects": [
@@ -101,7 +101,10 @@
     "test:e2e": "playwright test",
     "size": "size-limit",
     "check": "pnpm typecheck && pnpm lint && pnpm test && pnpm build && pnpm size",
-    "examples": "node scripts/serve.mjs"
+    "examples": "node scripts/serve.mjs",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -129,6 +132,7 @@
     "tsdown": "0.23.7",
     "typescript": "~6.0.3",
     "typescript-eslint": "8.72.2",
+    "vitepress": "^1.6.4",
     "vitest": "5.1.0",
     "zod": "^4.6.7"
   },
