@@ -18,30 +18,49 @@ const aliasPlugin = {
   }
 }
 
-const core = `export * from '@/index'\nexport * from '@/dom/index'\n`
-const bundles = [
+const autoBindOnLoad = `
+import { autoBind as __autoBind } from '@/dom/index'
+const __script = typeof document !== 'undefined' ? document.currentScript : null
+if (__script && __script.hasAttribute('data-auto-bind')) {
+  const __run = () => __autoBind(document, { observe: true })
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', __run, { once: true })
+  else __run()
+}
+`
+const core = `export * from '@/index'\n`
+const dom = `${core}export * from '@/dom/index'\n`
+const jquery = `${dom}export { installUrlState } from '@/jquery/index'\n`
+const drivers = `export { flatpickrDriver, registerWidgetDrivers, select2Driver } from '@/jquery/drivers/index'
+import { registerWidgetDrivers as __registerWidgetDrivers } from '@/jquery/drivers/index'
+const __jQuery = globalThis.jQuery
+if (__jQuery && __jQuery.fn) __registerWidgetDrivers(__jQuery)
+`
+
+/** Every target ships as a self-registering IIFE (window.UrlState) and a browser ESM build, each plain + minified. */
+export const targets = [
   { name: 'urlstate', contents: core },
-  {
-    name: 'urlstate.jquery',
-    contents: `${core}export { installUrlState } from '@/jquery/index'\nexport { flatpickrDriver, registerWidgetDrivers, select2Driver } from '@/jquery/drivers/index'\n`
-  }
+  { name: 'urlstate.dom', contents: dom + autoBindOnLoad },
+  { name: 'urlstate.jquery', contents: jquery + autoBindOnLoad },
+  { name: 'urlstate.jquery.full', contents: jquery + drivers + autoBindOnLoad }
 ]
 
-for (const bundle of bundles) {
-  for (const minify of [false, true]) {
-    await build({
-      stdin: { contents: bundle.contents, resolveDir: src, loader: 'ts' },
-      bundle: true,
-      format: 'iife',
-      globalName: 'UrlState',
-      target: 'es2018',
-      platform: 'browser',
-      minify,
-      sourcemap: true,
-      legalComments: 'none',
-      plugins: [aliasPlugin],
-      outfile: resolve(root, 'dist', `${bundle.name}.iife${minify ? '.min' : ''}.js`)
-    })
+for (const target of targets) {
+  for (const format of ['iife', 'esm']) {
+    for (const minify of [false, true]) {
+      await build({
+        stdin: { contents: target.contents, resolveDir: src, loader: 'ts' },
+        bundle: true,
+        format,
+        globalName: format === 'iife' ? 'UrlState' : undefined,
+        target: 'es2018',
+        platform: 'browser',
+        minify,
+        sourcemap: true,
+        legalComments: 'none',
+        plugins: [aliasPlugin],
+        outfile: resolve(root, 'dist', `${target.name}.${format}${minify ? '.min' : ''}.js`)
+      })
+    }
   }
 }
-console.log('IIFE bundles: urlstate, urlstate.jquery')
+console.log(`Browser bundles: ${targets.map(t => t.name).join(', ')} (iife + esm, plain + min)`)

@@ -104,7 +104,8 @@
     "examples": "node scripts/serve.mjs",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs",
+    "release:pack": "node scripts/package-release.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

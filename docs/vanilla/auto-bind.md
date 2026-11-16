@@ -8,8 +8,8 @@
 <select multiple data-urlstate="tags" data-urlstate-parser="array" data-urlstate-separator=";">…</select>
 <span data-urlstate="page" data-urlstate-parser="integer"></span> <!-- live display -->
 
-<script src="https://unpkg.com/urlstate/dist/urlstate.dom.iife.min.js"></script>
-<script>UrlState.autoBind()</script>
+<script src="https://unpkg.com/urlstate/dist/urlstate.dom.iife.min.js" data-auto-bind></script>
+<!-- same as: <script>UrlState.autoBind(document, { observe: true })</script> -->
 ```
 
 `autoBind(root = document, { observe, instance, parsers, drivers })` returns `{ bindings, refresh(), unbind() }`. With `observe: true`, a `MutationObserver` binds elements added later and unbinds removed ones.

@@ -2,7 +2,7 @@
 
 ```js
 import { registerWidgetDrivers } from 'urlstate/jquery/drivers'
-registerWidgetDrivers($)   // script tag: UrlState.registerWidgetDrivers(jQuery)
+registerWidgetDrivers($)   // urlstate.jquery.full.iife.min.js does this automatically
 ```
 
 | Driver | Matches | Read | Write |

@@ -4,7 +4,7 @@
 <label><input type="radio" name="view" value="list">List</label>
 <label><input type="radio" name="view" value="grid">Grid</label>
 <p data-testid="hash" id="hash"></p>
-<script src="/dist/urlstate.iife.js"></script><script src="/examples/url-bar.js"></script>
+<script src="/dist/urlstate.dom.iife.js"></script><script src="/examples/url-bar.js"></script>
 <script>
   UrlState.configure({ adapter: UrlState.hashAdapter() })
   UrlState.bind('input[name=view]', 'view', UrlState.parseAsString.withDefault('list'))

@@ -7,7 +7,7 @@
 </div>
 <section id="panel" data-testid="panel"></section>
 <p>Tabs push history, so Back returns to the previous tab. Invalid values (<code>?tab=nope</code>) fall back to the default.</p>
-<script src="/dist/urlstate.iife.js"></script><script src="/examples/url-bar.js"></script>
+<script src="/dist/urlstate.dom.iife.js"></script><script src="/examples/url-bar.js"></script>
 <script>
   var tab = UrlState.queryState('tab', UrlState.parseAsStringLiteral(['overview', 'specs', 'reviews']).withDefault('overview'), { history: 'push' })
   var tabs = document.querySelectorAll('[role=tab]')

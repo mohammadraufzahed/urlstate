@@ -7,10 +7,10 @@ Supports **jQuery 3.6.0 → 4.x**, both full and slim builds.
 ::: code-group
 ```html [script tags]
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<!-- core + plugin; installs on window.jQuery -->
+<!-- core + DOM + plugin; installs on window.jQuery -->
 <script src="https://unpkg.com/urlstate/dist/urlstate.jquery.iife.min.js"></script>
-<!-- optional: Select2 + flatpickr drivers -->
-<script src="https://unpkg.com/urlstate/dist/urlstate.jquery-drivers.iife.min.js"></script>
+<!-- or the same plus Select2 + flatpickr drivers, registered automatically -->
+<script src="https://unpkg.com/urlstate/dist/urlstate.jquery.full.iife.min.js"></script>
 ```
 ```js [bundler]
 import $ from 'jquery'

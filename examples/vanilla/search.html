@@ -3,7 +3,7 @@
 <input id="q" type="search" placeholder="Search products" data-testid="q">
 <ul id="results"></ul>
 <p>The list filters on every keystroke; the URL is only written 300&nbsp;ms after you stop typing.</p>
-<script src="/dist/urlstate.iife.js"></script><script src="/examples/url-bar.js"></script>
+<script src="/dist/urlstate.dom.iife.js"></script><script src="/examples/url-bar.js"></script>
 <script>
   var products = ['Michelin Pilot Sport 4', 'Pirelli P Zero', 'Bridgestone Turanza', 'Continental EcoContact', 'Goodyear Eagle F1']
   var binding = UrlState.bind('#q', 'q', UrlState.parseAsString.withDefault(''), { debounce: 300 })

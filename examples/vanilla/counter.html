@@ -2,7 +2,7 @@
 <h1>Counter</h1>
 <button id="dec">-</button> <output id="count" data-testid="count"></output> <button id="inc">+</button> <button id="reset">Reset</button>
 <p>Each click pushes a history entry, so Back steps through the counts. <code>0</code> is the default, so it is removed from the URL.</p>
-<script src="/dist/urlstate.iife.js"></script><script src="/examples/url-bar.js"></script>
+<script src="/dist/urlstate.dom.iife.js"></script><script src="/examples/url-bar.js"></script>
 <script>
   var count = UrlState.queryState('count', UrlState.parseAsInteger.withDefault(0), { history: 'push' })
   var out = document.getElementById('count')
