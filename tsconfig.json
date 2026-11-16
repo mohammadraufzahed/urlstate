@@ -15,7 +15,7 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "noEmit": true,
-    "paths": { "@/*": ["./src/*"] }
+    "paths": { "@/*": ["./src/*"], "@tests/*": ["./tests/unit/*"] }
   },
   "include": ["src", "tests", "*.config.ts"]
 }

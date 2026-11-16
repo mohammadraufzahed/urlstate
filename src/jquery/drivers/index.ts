@@ -12,9 +12,11 @@ export function select2Driver($: JQueryFactory): ElementDriver {
     events: ['change'],
     matches: els => els.length === 1 && els[0] instanceof HTMLSelectElement && els[0].classList.contains('select2-hidden-accessible'),
     read(els) {
-      const value = $(els as Element[]).val()
-      if (value === null || value === undefined) return null
-      return Array.isArray(value) ? value.map(String) : String(value)
+      const select = els[0] as HTMLSelectElement
+      const values = Array.from(select.options)
+        .filter(option => option.selected)
+        .map(option => option.value)
+      return select.multiple ? values : (values[0] ?? null)
     },
     write(els, value) {
       const select = els[0] as HTMLSelectElement
