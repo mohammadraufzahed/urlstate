@@ -22,9 +22,12 @@ export interface Serializer<S extends ParserMap> {
 function splitBase(base: SerializerBase): [string, URLSearchParams, string] {
   if (base instanceof URLSearchParams) return ['', new URLSearchParams(base), '']
   if (base instanceof URL) return [base.origin + base.pathname, new URLSearchParams(base.search), base.hash]
-  const [path = '', hash = ''] = base.split('#')
-  const [pathname = '', search = ''] = path.split('?')
-  return [pathname, new URLSearchParams(search), hash ? '#' + hash : '']
+  const hashAt = base.indexOf('#')
+  const path = hashAt === -1 ? base : base.slice(0, hashAt)
+  const hash = hashAt === -1 ? '' : base.slice(hashAt)
+  const queryAt = path.indexOf('?')
+  const pathname = queryAt === -1 ? path : path.slice(0, queryAt)
+  return [pathname, new URLSearchParams(queryAt === -1 ? '' : path.slice(queryAt + 1)), hash.length > 1 ? hash : '']
 }
 
 const isBase = (value: unknown): value is SerializerBase => typeof value === 'string' || value instanceof URL || value instanceof URLSearchParams
