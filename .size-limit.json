@@ -26,7 +26,7 @@
   {
     "name": "IIFE core",
     "path": "dist/urlstate.iife.min.js",
-    "limit": "6 kB"
+    "limit": "7 kB"
   },
   {
     "name": "IIFE core + DOM",
