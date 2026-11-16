@@ -73,7 +73,9 @@ export function installUrlState<J extends JQueryFactory>($: J): J {
   Object.assign($, { urlState, urlStates: queryStates })
 
   function bindCollection(elements: Element[], state: QueryState<unknown>, options: JQueryBindOptions): Binding[] {
-    const groups = elements.length > 1 && elements.every(isToggle) ? [elements] : elements.map(el => [el])
+    const isText = (el: Element): boolean => el instanceof HTMLTextAreaElement || (el instanceof HTMLInputElement && !isToggle(el))
+    const grouped = elements.length > 1 && (elements.every(isToggle) || (state.parser.type === 'multi' && elements.every(isText)))
+    const groups = grouped ? [elements] : elements.map(el => [el])
     return groups.map(group => bind(group, state, { ...options, ...shared }))
   }
 

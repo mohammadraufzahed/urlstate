@@ -76,16 +76,25 @@ export const selectDriver: ElementDriver = {
 const TEXT_EVENTS = ['input']
 const CHANGE_EVENTS = ['change']
 
-/** Text-like inputs and textareas → their value. Range/date/color inputs listen to `change`-friendly events. */
+const NON_TEXT_TYPES = ['checkbox', 'radio', 'file', 'button', 'submit', 'reset', 'image']
+const isTextControl = (el: Element): boolean => el instanceof HTMLTextAreaElement || (isInput(el) && !NON_TEXT_TYPES.includes(el.type))
+
+/** Text-like inputs and textareas → their value; several fields (e.g. `tags[]`) map to an array by position. */
 export const inputDriver: ElementDriver = {
   name: 'input',
   events: TEXT_EVENTS,
-  matches: els => els.length === 1 && (els[0] instanceof HTMLTextAreaElement || (isInput(els[0] as Element) && !['checkbox', 'radio', 'file', 'button', 'submit', 'reset', 'image'].includes((els[0] as HTMLInputElement).type))),
-  read: els => (els[0] as HTMLInputElement | HTMLTextAreaElement).value,
+  matches: els => els.length > 0 && els.every(isTextControl),
+  read(els) {
+    const values = els.map(el => (el as HTMLInputElement | HTMLTextAreaElement).value)
+    return els.length === 1 ? (values[0] ?? '') : values.filter(value => value !== '')
+  },
   write(els, value) {
-    const el = els[0] as HTMLInputElement | HTMLTextAreaElement
-    const next = toList(value)[0] ?? ''
-    if (el.value !== next) el.value = next
+    const list = toList(value)
+    els.forEach((el, index) => {
+      const field = el as HTMLInputElement | HTMLTextAreaElement
+      const next = list[els.length === 1 ? 0 : index] ?? ''
+      if (field.value !== next) field.value = next
+    })
   }
 }
 
