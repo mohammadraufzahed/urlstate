@@ -35,34 +35,42 @@
   "jsdelivr": "./dist/urlstate.iife.min.js",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
     "./server": {
+      "types": "./dist/server.d.ts",
       "import": "./dist/server.js",
       "require": "./dist/server.cjs"
     },
     "./dom": {
+      "types": "./dist/dom.d.ts",
       "import": "./dist/dom.js",
       "require": "./dist/dom.cjs"
     },
     "./jquery": {
+      "types": "./dist/jquery.d.ts",
       "import": "./dist/jquery.js",
       "require": "./dist/jquery.cjs"
     },
     "./jquery/drivers": {
+      "types": "./dist/jquery-drivers.d.ts",
       "import": "./dist/jquery-drivers.js",
       "require": "./dist/jquery-drivers.cjs"
     },
     "./adapters/browser": {
+      "types": "./dist/adapters/browser.d.ts",
       "import": "./dist/adapters/browser.js",
       "require": "./dist/adapters/browser.cjs"
     },
     "./adapters/hash": {
+      "types": "./dist/adapters/hash.d.ts",
       "import": "./dist/adapters/hash.js",
       "require": "./dist/adapters/hash.cjs"
     },
     "./adapters/memory": {
+      "types": "./dist/adapters/memory.d.ts",
       "import": "./dist/adapters/memory.js",
       "require": "./dist/adapters/memory.cjs"
     },
@@ -92,7 +100,8 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "size": "size-limit",
-    "check": "pnpm typecheck && pnpm lint && pnpm test && pnpm build && pnpm size"
+    "check": "pnpm typecheck && pnpm lint && pnpm test && pnpm build && pnpm size",
+    "examples": "node scripts/serve.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -101,6 +110,8 @@
     "@standard-schema/spec": "1.1.0",
     "@types/jquery": "^4.0.1",
     "@types/node": "^24.19.2",
+    "datatables.net": "^2.3.8",
+    "datatables.net-dt": "^2.3.8",
     "esbuild": "^0.28.2",
     "eslint": "^10.15.0",
     "flatpickr": "^4.6.13",
@@ -120,5 +131,6 @@
     "typescript-eslint": "8.72.2",
     "vitest": "5.1.0",
     "zod": "^4.6.7"
-  }
+  },
+  "packageManager": "pnpm@11.21.0"
 }

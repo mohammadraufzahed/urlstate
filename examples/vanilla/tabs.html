@@ -1,0 +1,22 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><link rel="stylesheet" href="/examples/style.css"><title>Tabs</title></head><body><nav><a href="/examples/index.html">All examples</a></nav>
+<h1>Tabs</h1>
+<div role="tablist">
+  <button role="tab" data-tab="overview">Overview</button>
+  <button role="tab" data-tab="specs">Specs</button>
+  <button role="tab" data-tab="reviews">Reviews</button>
+</div>
+<section id="panel" data-testid="panel"></section>
+<p>Tabs push history, so Back returns to the previous tab. Invalid values (<code>?tab=nope</code>) fall back to the default.</p>
+<script src="/dist/urlstate.iife.js"></script><script src="/examples/url-bar.js"></script>
+<script>
+  var tab = UrlState.queryState('tab', UrlState.parseAsStringLiteral(['overview', 'specs', 'reviews']).withDefault('overview'), { history: 'push' })
+  var tabs = document.querySelectorAll('[role=tab]')
+  function render(current) {
+    tabs.forEach(function (b) { b.setAttribute('aria-selected', String(b.dataset.tab === current)) })
+    document.getElementById('panel').textContent = 'Panel: ' + current
+  }
+  tabs.forEach(function (b) { b.onclick = function () { tab.set(b.dataset.tab) } })
+  tab.subscribe(render)
+  render(tab.get())
+</script>
+</body></html>

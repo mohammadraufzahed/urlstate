@@ -1,0 +1,19 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><link rel="stylesheet" href="/examples/style.css"><title>Search</title></head><body><nav><a href="/examples/index.html">All examples</a></nav>
+<h1>Debounced search</h1>
+<input id="q" type="search" placeholder="Search products" data-testid="q">
+<ul id="results"></ul>
+<p>The list filters on every keystroke; the URL is only written 300&nbsp;ms after you stop typing.</p>
+<script src="/dist/urlstate.iife.js"></script><script src="/examples/url-bar.js"></script>
+<script>
+  var products = ['Michelin Pilot Sport 4', 'Pirelli P Zero', 'Bridgestone Turanza', 'Continental EcoContact', 'Goodyear Eagle F1']
+  var binding = UrlState.bind('#q', 'q', UrlState.parseAsString.withDefault(''), { debounce: 300 })
+  function render(q) {
+    var term = q.toLowerCase()
+    document.getElementById('results').innerHTML = products
+      .filter(function (p) { return p.toLowerCase().indexOf(term) !== -1 })
+      .map(function (p) { return '<li>' + p + '</li>' }).join('')
+  }
+  binding.state.subscribe(render)
+  render(binding.state.get())
+</script>
+</body></html>

@@ -1,0 +1,6 @@
+body { font: 15px/1.5 system-ui, sans-serif; max-width: 760px; margin: 2rem auto; padding: 0 1rem; color: #1d1d1f; }
+code, pre { background: #f4f4f6; border-radius: 4px; padding: 0 .3em; }
+.url { font-family: ui-monospace, monospace; background: #111; color: #9fef00; padding: .5rem .75rem; border-radius: 6px; word-break: break-all; }
+fieldset { border: 1px solid #ddd; border-radius: 6px; margin: 1rem 0; }
+button[aria-selected="true"] { font-weight: 700; border-bottom: 2px solid #0a66ff; }
+nav a { margin-right: .75rem; }

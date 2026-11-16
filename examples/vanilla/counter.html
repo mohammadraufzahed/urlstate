@@ -1,0 +1,16 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><link rel="stylesheet" href="/examples/style.css"><title>Counter</title></head><body><nav><a href="/examples/index.html">All examples</a></nav>
+<h1>Counter</h1>
+<button id="dec">-</button> <output id="count" data-testid="count"></output> <button id="inc">+</button> <button id="reset">Reset</button>
+<p>Each click pushes a history entry, so Back steps through the counts. <code>0</code> is the default, so it is removed from the URL.</p>
+<script src="/dist/urlstate.iife.js"></script><script src="/examples/url-bar.js"></script>
+<script>
+  var count = UrlState.queryState('count', UrlState.parseAsInteger.withDefault(0), { history: 'push' })
+  var out = document.getElementById('count')
+  function render(value) { out.textContent = value }
+  count.subscribe(render)
+  render(count.get())
+  document.getElementById('inc').onclick = function () { count.set(function (c) { return c + 1 }) }
+  document.getElementById('dec').onclick = function () { count.set(function (c) { return c - 1 }) }
+  document.getElementById('reset').onclick = function () { count.reset() }
+</script>
+</body></html>

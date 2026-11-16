@@ -1,0 +1,42 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><link rel="stylesheet" href="/examples/style.css"><title>Filters</title></head><body><nav><a href="/examples/index.html">All examples</a></nav>
+<h1>Filters + pagination</h1>
+<label>Category <select id="category"><option value="">All</option><option value="tires">Tires</option><option value="rims">Rims</option></select></label>
+<label>Min price <input id="min" type="number" step="10"></label>
+<fieldset><legend>Sizes</legend>
+  <label><input type="checkbox" name="size" value="16">16"</label>
+  <label><input type="checkbox" name="size" value="17">17"</label>
+  <label><input type="checkbox" name="size" value="18">18"</label>
+</fieldset>
+<p><button id="prev">Prev</button> Page <output id="page" data-testid="page"></output> <button id="next">Next</button></p>
+<pre id="state" data-testid="state"></pre>
+<p>Filters use <code>urlKeys</code> for short URLs (<code>cat</code>, <code>min</code>, <code>s</code>). Changing a filter resets the page to 1 in the same URL update.</p>
+<script src="/dist/urlstate.iife.js"></script><script src="/examples/url-bar.js"></script>
+<script>
+  var P = UrlState
+  var filters = P.queryStates({
+    category: P.parseAsString.withDefault(''),
+    minPrice: P.parseAsInteger,
+    sizes: P.parseAsArrayOf(P.parseAsInteger).withDefault([]),
+    page: P.parseAsIndex.withDefault(0)
+  }, { urlKeys: { category: 'cat', minPrice: 'min', sizes: 's' } })
+
+  var category = P.queryState('cat', P.parseAsString.withDefault(''))
+  var minPrice = P.queryState('min', P.parseAsInteger)
+  var sizes = P.queryState('s', P.parseAsArrayOf(P.parseAsInteger).withDefault([]))
+  ;[[ '#category', category ], [ '#min', minPrice ], [ 'input[name=size]', sizes ]].forEach(function (pair) {
+    var binding = P.bind(pair[0], pair[1], { debounce: pair[0] === '#min' ? 250 : 0 })
+    binding.elements.forEach(function (el) {
+      el.addEventListener(el.type === 'number' ? 'input' : 'change', function () { filters.set({ page: 0 }) })
+    })
+  })
+
+  function render(v) {
+    document.getElementById('page').textContent = v.page + 1
+    document.getElementById('state').textContent = JSON.stringify(v, null, 2)
+  }
+  filters.subscribe(render)
+  render(filters.get())
+  document.getElementById('next').onclick = function () { filters.set(function (v) { return { page: v.page + 1 } }, { history: 'push' }) }
+  document.getElementById('prev').onclick = function () { filters.set(function (v) { return { page: Math.max(0, v.page - 1) } }, { history: 'push' }) }
+</script>
+</body></html>

@@ -19,6 +19,6 @@ export default tseslint.config(
   {
     files: ['**/*.js', '**/*.mjs', 'examples/**', 'tests/e2e/**', '*.config.ts'],
     rules: { 'no-restricted-imports': 'off' },
-    languageOptions: { globals: { window: 'readonly', document: 'readonly', console: 'readonly', process: 'readonly', URL: 'readonly' } }
+    languageOptions: { globals: { window: 'readonly', document: 'readonly', location: 'readonly', console: 'readonly', process: 'readonly', URL: 'readonly', URLSearchParams: 'readonly' } }
   }
 )
