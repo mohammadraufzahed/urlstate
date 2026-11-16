@@ -207,7 +207,7 @@ export class UrlStore {
       const delay = Math.max(0, this.lastFlushAt + this.throttleMs - now())
       this.flushTimer = setTimeout(() => {
         this.flushTimer = null
-        void this.runFlush()
+        this.runFlush().catch(() => undefined)
       }, delay)
     }
     return deferred.promise
