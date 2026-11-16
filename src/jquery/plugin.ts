@@ -11,7 +11,7 @@ import type { JQueryBindOptions, JQueryCollection, JQueryFactory, UrlStateFormOp
 const INSTALLED = Symbol.for('urlstate.jquery')
 const VERSION = '0.1.0'
 const TEXT_TYPES = new Set(['text', 'search', 'email', 'url', 'tel', 'password', 'number', 'textarea'])
-const IGNORED_TYPES = new Set(['button', 'submit', 'reset', 'image', 'file'])
+const IGNORED_TYPES = new Set(['button', 'submit', 'reset', 'image', 'file', 'password'])
 
 interface FormRecord {
   readonly bindings: Binding[]
