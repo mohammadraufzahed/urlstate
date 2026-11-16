@@ -8,7 +8,7 @@ describe('renderQueryString', () => {
   })
 
   it('matches nuqs encoding byte for byte', () => {
-    const samples = [
+    const samples: Record<string, string>[] = [
       { q: 'hello world', 'a&b': '1=2', tags: 'a,b' },
       { x: '100% + "quoted" <tag> `tick` \'s #hash' },
       { 'k?ey': 'é ü 中文', ctl: '\u0001\u001f' }
