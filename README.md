@@ -139,7 +139,7 @@ The browser adapter also picks up `history.pushState`/`replaceState` calls made 
 
 ## Development
 
-Requires Node 20+ and pnpm (`corepack enable` sets up the pinned version).
+The package runs on Node 20+. Developing it needs Node 22.13+ (required by pnpm 11) and pnpm; `corepack enable` sets up the pinned pnpm version.
 
 | | Linux / macOS | Windows (PowerShell) |
 | --- | --- | --- |
