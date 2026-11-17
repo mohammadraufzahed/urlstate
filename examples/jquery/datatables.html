@@ -34,7 +34,7 @@
     table.on('page.dt', function () { if (!applying) state.set({ page: table.page.info().page }, { history: 'push' }) })
     table.on('search.dt', function () { if (!applying) state.set({ q: table.search(), page: 0 }) })
     table.on('order.dt', function () { if (!applying) { var o = table.order()[0]; state.set({ sort: [o[0], o[1]], page: 0 }) } })
-    state.subscribe(function (v, meta) { if (meta.source === 'external') apply(v) })
+    state.subscribe(function (v, meta) { if (meta.source === 'popstate' || meta.source === 'external') apply(v) })
   })
 </script>
 </body></html>
